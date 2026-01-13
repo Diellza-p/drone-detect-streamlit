@@ -6,27 +6,32 @@ from scipy import signal
 import matplotlib.pyplot as plt
 
 
+import streamlit as st
+
 def require_auth():
     if "auth" not in st.session_state:
         st.session_state.auth = False
-    if not st.session.state.auth:
+
+    if not st.session_state.auth:
         st.title("Login")
+
         username = st.text_input("Username")
-        token = st.text_input("Token", type= "password")
+        token = st.text_input("Token", type="password")
 
-    if st.button("Login"):
-        if (
-            username == st.secret["DB_USERNAME"] and
-            token == st.secrets["DB_TOKEN"]
-        ):
-            st.session_state.auth = True
-            st.rerun()
-        else:
-            st.error("You shall not pass")
+        if st.button("Login"):
+            if (
+                username == st.secrets["DB_USERNAME"]
+                and token == st.secrets["DB_TOKEN"]
+            ):
+                st.session_state.auth = True
+                st.rerun()
+            else:
+                st.error("You shall not pass")
 
-     st.stop()
+        st.stop()
 
 require_auth()
+
 
 
 st.set_page_config(page_title="Drone Detection", layout="wide")
